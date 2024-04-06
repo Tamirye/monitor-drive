@@ -44,7 +44,7 @@ Complete the following steps to enable the Google Drive API and create the neces
 
 After completing these steps, you should have a `credentials.json` file, which is required to authenticate and authorize the script to access your Google Drive.
 
-#### Installation
+### Installation
 
 1. **Clone the project**:
    - `git clone https://github.com/Tamirye/drive-monitor`
@@ -54,7 +54,7 @@ After completing these steps, you should have a `credentials.json` file, which i
      pip install -r requirements.txt
      ```
 
-#### Usage
+### Usage
 
 1. **Script Configuration**:
    - Place the `credentials.json` file in the same directory as the script, or specify its path when running the script.
