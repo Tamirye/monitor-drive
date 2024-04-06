@@ -68,7 +68,6 @@ After completing these steps, you should have a `credentials.json` file, which i
 
    ```
    python google_drive_monitor.py -c path/to/your/credentials.json -t path/to/your/token.json
-
    ```
 
    - Optionally, for testing the enforced sharing settings you can use the following options:
@@ -82,20 +81,24 @@ After completing these steps, you should have a `credentials.json` file, which i
 
    - **Notes on Sharing Settings Enumeration**:
 
-     - Admin users in the Google Suite can view the directly using the admin SDK, as I didn't have Google Suite license and I couldn't test this functionality, I decided to test localy by trying to share a file in different scenarios using the given user permissions. This may produce different results depending on the user's permissions and could not be relied for organization wide policies.
+     - Admin users in the Google Suite can view the directly using the admin SDK, as I didn't have Google Suite license and I couldn't test this functionality, I decided to test locally by trying to share a file in different scenarios using the given user permissions. This may produce different results depending on the user's permissions and could not be relied for organization wide policies.
      - Changing ownership on a file via API is restricted so it is not tested
-     - The default email was chosen as an email that is defently not part of the google account domain
+     - The default email was chosen as an email that is definitely not part of the google account domain
      - The reason I chose google.com as a default domain is that I know that they are using Google Suite so I can be sure that the domain is eligible for sharing.
      - Groups cannot be tested without a group id so I decided to use a group id I own on a different google account then the one I tested the script on.
 
-   - Optionally, the user can adjust the sleep time between file monitoring scaning operations so not to exceed the Google Drive API rate limit. This can be done using `-s`, `--sleep_period` Sleep period (in seconds). Default is 10 seconds.
+   - Optionally, the user can adjust the sleep time between file monitoring scanning operations so not to exceed the Google Drive API rate limit. This can be done using `-s`, `--sleep_period` (in seconds). Default is 10 seconds.
 
    ```
    python google_drive_monitor.py -c path/to/credentials.json -s 30
-
    ```
 
-#### Important Notes
+### Important Notes
 
 - **Rate Limits**: The Google Drive API has usage limits; excessive requests may lead to temporary blocking.
 - **Permission Adjustments**: The script adjusts permissions for new files only; existing file permissions are not modified.
+
+## Attack Surface
+
+- **Google Suite\Google Workspace Usage**: Using the API and trying to share a file with a specific domain can expose if this domain is used in a GCP organization, Google workspace or Google Suite. When trying to share a file with a domain that is not registered with any of those services you get an error `The specified domain is invalid or not applicable for the given permission type.`. Note that this error might also occur if the Google account used is blocked for sharing files with this domain but this can be assessed by using an attacker-controlled Google account with no restriction in place.
+- **File Sharing Settings Enumeration**: By trying to share a file with different types of configurations (internal\external users, domains and groups) even a low privileged user can enumerate the enforced sharing settings.
