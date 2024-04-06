@@ -175,8 +175,9 @@ def monitor_public_folders_change_new_file_permissions(session, folders, sleep_p
         files = results.get('files', [])
         for file in files:
             known_files[folder['id']].append(file['id'])
-
-    while True:
+    start_scan_time = time.time()
+    rescan = False
+    while not rescan:
         try:
             for folder in folders:
                 query = f"'{folder['id']}' in parents and trashed = false"
@@ -203,9 +204,16 @@ def monitor_public_folders_change_new_file_permissions(session, folders, sleep_p
                         known_files[folder['id']].append(file['id'])
 
             time.sleep(sleep_period)
-
+            current_time = time.time()
+            if current_time - start_scan_time > 1800:
+                print("[!] Rescannig the Drive for publicly accessible folders")
+                rescan = True
         except HttpError as error:
             print(f'[-] An error occurred: {error}')
+
+    new_public_folders = enumerate_publicly_accessible_folders(session)
+    monitor_public_folders_change_new_file_permissions(
+        session, new_public_folders, sleep_period)
 
 
 def main():

@@ -96,6 +96,7 @@ After completing these steps, you should have a `credentials.json` file, which i
 ### Important Notes
 
 - **Rate Limits**: The Google Drive API has usage limits; excessive requests may lead to temporary blocking.
+- **Rescanning All the Folders**: In a large drive with a lot of folders and subfolders rescanning the drive for publicly accessible folders might be time consuming so the rescan is done once every 30 minutes.
 - **Permission Adjustments**: The script adjusts permissions for new files only; existing file permissions are not modified.
 
 ## Attack Surface
