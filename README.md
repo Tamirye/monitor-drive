@@ -90,7 +90,7 @@ After completing these steps, you should have a `credentials.json` file, which i
    - Optionally, the user can adjust the sleep time between file monitoring scanning operations so not to exceed the Google Drive API rate limit. This can be done using `-s`, `--sleep_period` (in seconds). Default is 10 seconds.
 
    ```
-   python google_drive_monitor.py -c path/to/credentials.json -s 30
+   python google_drive_monitor.py -c path/to/credentials.json -s 60
    ```
 
 ### Important Notes
